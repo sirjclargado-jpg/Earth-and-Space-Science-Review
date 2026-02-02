@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Earth Science Quiz Game</title>
+<style>
+  .choices button:disabled {
+  background: #1e293b;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+  body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #ffffff;
+    margin: 0;
+  }
+  .container {
+    max-width: 720px;
+    margin: auto;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  .progress {
+    margin: 10px 0;
+    font-size: 0.9em;
+  }
+  .question {
+    font-size: 1.2em;
+    margin: 20px 0;
+  }
+  .choices button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  .choices button:hover {
+    background: #334155;
+    color: white;
+  }
+  .next {
+    margin-top: 15px;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>🌍 Earth Science Quiz Game</h1>
+  <div class="progress" id="progress"></div>
+  <div class="question" id="question"></div>
+  <div class="choices" id="choices"></div>
+  <button class="next" onclick="nextQuestion()">Next</button>
+</div>
+
+<script>
+/* =====================================
+   PART 1 — QUESTIONS 1–35 ONLY
+   ===================================== */
+
+const quiz = [
+
+/* 1 */
+{
+  q: "Which is the largest ocean on Earth?",
+  c: ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean", "Arctic Ocean"],
+  a: 2
+},
+
+/* 2 */
+{
+  q: "About what percentage of Earth’s surface is covered by water?",
+  c: ["50%", "60%", "70%", "80%"],
+  a: 2
+},
+
+/* 3 */
+{
+  q: "The Philippines is located along which major geologic feature?",
+  c: ["Mid-Atlantic Ridge", "Pacific Ring of Fire", "Great Rift Valley", "San Andreas Fault"],
+  a: 1
+},
+
+/* 4 */
+{
+  q: "What is the outermost layer of the Earth called?",
+  c: ["Mantle", "Core", "Crust", "Asthenosphere"],
+  a: 2
+},
+
+/* 5 */
+{
+  q: "Which layer of the Earth is the hottest?",
+  c: ["Crust", "Mantle", "Outer Core", "Inner Core"],
+  a: 3
+},
+
+/* 6 */
+{
+  q: "Which type of plate boundary occurs when plates move away from each other?",
+  c: ["Convergent", "Transform", "Divergent", "Subduction"],
+  a: 2
+},
+
+/* 7 */
+{
+  q: "Earthquakes are most commonly caused by",
+  c: ["Volcanic eruptions", "Plate movements", "Ocean waves", "Weather changes"],
+  a: 1
+},
+
+/* 8 */
+{
+  q: "Which layer of the Earth is semi-molten and allows plates to move?",
+  c: ["Lithosphere", "Asthenosphere", "Crust", "Inner Core"],
+  a: 1
+},
+
+/* 9 */
+{
+  q: "What instrument is used to measure earthquakes?",
+  c: ["Barometer", "Thermometer", "Seismograph", "Anemometer"],
+  a: 2
+},
+
+/* 10 */
+{
+  q: "What scale is used to measure earthquake magnitude?",
+  c: ["Celsius Scale", "Beaufort Scale", "Richter Scale", "Fujita Scale"],
+  a: 2
+},
+
+/* 11 */
+{
+  q: "What type of plate boundary occurs when one plate sinks beneath another?",
+  c: ["Transform", "Divergent", "Convergent", "Passive"],
+  a: 2
+},
+
+/* 12 */
+{
+  q: "What process causes the sinking of a denser plate beneath a less dense plate?",
+  c: ["Rifting", "Collision", "Subduction", "Spreading"],
+  a: 2
+},
+
+/* 13 */
+{
+  q: "Which plate boundary is most associated with earthquakes but little volcanic activity?",
+  c: ["Convergent", "Divergent", "Transform", "Subduction"],
+  a: 2
+},
+
+/* 14 */
+{
+  q: "What landform is commonly created at divergent plate boundaries on the ocean floor?",
+  c: ["Trench", "Volcano", "Mid-ocean ridge", "Mountain range"],
+  a: 2
+},
+
+/* 15 */
+{
+  q: "Which layer of the Earth is made mostly of iron and nickel?",
+  c: ["Crust", "Mantle", "Outer Core", "Lithosphere"],
+  a: 2
+},
+
+/* 16 */
+{
+  q: "Which Earth layer is liquid in state?",
+  c: ["Inner Core", "Outer Core", "Mantle", "Crust"],
+  a: 1
+},
+
+/* 17 */
+{
+  q: "What causes tectonic plates to move?",
+  c: ["Wind currents", "Ocean tides", "Mantle convection", "Solar energy"],
+  a: 2
+},
+
+/* 18 */
+{
+  q: "Which plate is the largest tectonic plate on Earth?",
+  c: ["African Plate", "Eurasian Plate", "Pacific Plate", "North American Plate"],
+  a: 2
+},
+
+/* 19 */
+{
+  q: "Which geologic feature is formed at convergent plate boundaries?",
+  c: ["Mid-ocean ridges", "Rift valleys", "Mountain ranges", "Abyssal plains"],
+  a: 2
+},
+
+/* 20 */
+{
+  q: "Which type of stress pulls rocks apart?",
+  c: ["Compressional", "Shear", "Tensional", "Thermal"],
+  a: 2
+},
+
+/* 21 */
+{
+  q: "Which type of stress pushes rocks together?",
+  c: ["Tensional", "Shear", "Compressional", "Elastic"],
+  a: 2
+},
+
+/* 22 */
+{
+  q: "Which type of stress causes rocks to slide past each other?",
+  c: ["Compressional", "Tensional", "Shear", "Vertical"],
+  a: 2
+},
+
+/* 23 */
+{
+  q: "What type of fault is caused by tensional stress?",
+  c: ["Reverse fault", "Normal fault", "Strike-slip fault", "Thrust fault"],
+  a: 1
+},
+
+/* 24 */
+{
+  q: "What type of fault is caused by compressional stress?",
+  c: ["Normal fault", "Strike-slip fault", "Reverse fault", "Transform fault"],
+  a: 2
+},
+
+/* 25 */
+{
+  q: "What type of fault is caused by shear stress?",
+  c: ["Normal fault", "Reverse fault", "Strike-slip fault", "Oblique fault"],
+  a: 2
+},
+
+/* 26 */
+{
+  q: "Which seismic wave travels fastest?",
+  c: ["P wave", "S wave", "Surface wave", "Love wave"],
+  a: 0
+},
+
+/* 27 */
+{
+  q: "Which seismic wave cannot travel through liquids?",
+  c: ["P wave", "Surface wave", "Love wave", "S wave"],
+  a: 3
+},
+
+/* 28 */
+{
+  q: "Which seismic wave causes the most damage on Earth's surface?",
+  c: ["P wave", "S wave", "Surface wave", "Body wave"],
+  a: 2
+},
+
+/* 29 */
+{
+  q: "What is the point on Earth's surface directly above the earthquake focus?",
+  c: ["Hypocenter", "Epicenter", "Fault line", "Crust point"],
+  a: 1
+},
+
+/* 30 */
+{
+  q: "What do you call the point inside the Earth where an earthquake starts?",
+  c: ["Epicenter", "Focus", "Fault", "Wave center"],
+  a: 1
+},
+
+/* 31 */
+{
+  q: "Which scale measures the intensity of earthquake damage?",
+  c: ["Richter Scale", "Moment Magnitude Scale", "Mercalli Scale", "Fujita Scale"],
+  a: 2
+},
+
+/* 32 */
+{
+  q: "Which type of volcano has broad, gently sloping sides?",
+  c: ["Cinder cone", "Composite", "Shield volcano", "Lava dome"],
+  a: 2
+},
+
+/* 33 */
+{
+  q: "Which type of volcano is most explosive?",
+  c: ["Shield volcano", "Cinder cone", "Composite volcano", "Fissure volcano"],
+  a: 2
+},
+
+/* 34 */
+{
+  q: "What is magma called once it reaches the Earth's surface?",
+  c: ["Lava", "Basalt", "Ash", "Tephra"],
+  a: 0
+},
+
+/* 35 */
+{
+  q: "Which volcanic material consists of solid fragments ejected during an eruption?",
+  c: ["Lava", "Magma", "Pyroclastic materials", "Basalt"],
+  a: 2
+},
+
+/* 36 */
+{
+  q: "Which volcano in the Philippines is considered the most active?",
+  c: ["Mt. Pinatubo", "Mt. Apo", "Mayon Volcano", "Taal Volcano"],
+  a: 2
+},
+
+/* 37 */
+{
+  q: "What type of volcano is Mayon Volcano?",
+  c: ["Shield volcano", "Cinder cone", "Composite volcano", "Lava dome"],
+  a: 2
+},
+
+/* 38 */
+{
+  q: "Which Philippine volcano caused massive global cooling in 1991?",
+  c: ["Taal", "Kanlaon", "Mayon", "Pinatubo"],
+  a: 3
+},
+
+/* 39 */
+{
+  q: "Which layer of the atmosphere is closest to the Earth?",
+  c: ["Stratosphere", "Mesosphere", "Troposphere", "Thermosphere"],
+  a: 2
+},
+
+/* 40 */
+{
+  q: "Where do weather phenomena mainly occur?",
+  c: ["Stratosphere", "Mesosphere", "Troposphere", "Exosphere"],
+  a: 2
+},
+
+/* 41 */
+{
+  q: "Which atmospheric layer contains the ozone layer?",
+  c: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"],
+  a: 1
+},
+
+/* 42 */
+{
+  q: "What is the main function of the ozone layer?",
+  c: ["Trap heat", "Produce oxygen", "Block UV radiation", "Control weather"],
+  a: 2
+},
+
+/* 43 */
+{
+  q: "Which layer of the atmosphere is the coldest?",
+  c: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"],
+  a: 2
+},
+
+/* 44 */
+{
+  q: "Which atmospheric layer is where meteors burn up?",
+  c: ["Stratosphere", "Mesosphere", "Thermosphere", "Exosphere"],
+  a: 1
+},
+
+/* 45 */
+{
+  q: "Which layer has very high temperatures due to solar radiation?",
+  c: ["Troposphere", "Mesosphere", "Thermosphere", "Stratosphere"],
+  a: 2
+},
+
+/* 46 */
+{
+  q: "What gas makes up most of the Earth's atmosphere?",
+  c: ["Oxygen", "Carbon dioxide", "Nitrogen", "Argon"],
+  a: 2
+},
+
+/* 47 */
+{
+  q: "What gas is essential for human respiration?",
+  c: ["Nitrogen", "Oxygen", "Carbon dioxide", "Helium"],
+  a: 1
+},
+
+/* 48 */
+{
+  q: "Which gas is a major contributor to the greenhouse effect?",
+  c: ["Nitrogen", "Oxygen", "Carbon dioxide", "Neon"],
+  a: 2
+},
+
+/* 49 */
+{
+  q: "What instrument is used to measure air pressure?",
+  c: ["Thermometer", "Barometer", "Anemometer", "Hygrometer"],
+  a: 1
+},
+
+/* 50 */
+{
+  q: "What instrument is used to measure temperature?",
+  c: ["Barometer", "Thermometer", "Anemometer", "Rain gauge"],
+  a: 1
+},
+
+/* 51 */
+{
+  q: "What instrument is used to measure wind speed?",
+  c: ["Barometer", "Wind vane", "Anemometer", "Hygrometer"],
+  a: 2
+},
+
+/* 52 */
+{
+  q: "What instrument is used to measure humidity?",
+  c: ["Anemometer", "Thermometer", "Hygrometer", "Barometer"],
+  a: 2
+},
+
+/* 53 */
+{
+  q: "Which process describes water vapor turning into liquid water?",
+  c: ["Evaporation", "Condensation", "Precipitation", "Transpiration"],
+  a: 1
+},
+
+/* 54 */
+{
+  q: "Which process describes liquid water turning into water vapor?",
+  c: ["Condensation", "Evaporation", "Sublimation", "Precipitation"],
+  a: 1
+},
+
+/* 55 */
+{
+  q: "Which part of the water cycle involves water falling to Earth?",
+  c: ["Evaporation", "Condensation", "Precipitation", "Infiltration"],
+  a: 2
+},
+
+/* 56 */
+{
+  q: "Which process allows water to seep into the ground?",
+  c: ["Runoff", "Precipitation", "Infiltration", "Evaporation"],
+  a: 2
+},
+
+/* 57 */
+{
+  q: "What is the continuous movement of water on Earth called?",
+  c: ["Weather cycle", "Hydrologic cycle", "Atmospheric cycle", "Carbon cycle"],
+  a: 1
+},
+
+/* 58 */
+{
+  q: "Which cloud type is associated with fair weather?",
+  c: ["Cumulonimbus", "Stratus", "Cirrus", "Cumulus"],
+  a: 3
+},
+
+/* 59 */
+{
+  q: "Which cloud type produces heavy rain and thunderstorms?",
+  c: ["Cumulus", "Cirrus", "Stratus", "Cumulonimbus"],
+  a: 3
+},
+
+/* 60 */
+{
+  q: "Which cloud type is thin and wispy?",
+  c: ["Cumulus", "Stratus", "Cirrus", "Nimbus"],
+  a: 2
+},
+
+/* 61 */
+{
+  q: "Which cloud type forms a blanket-like layer?",
+  c: ["Cirrus", "Cumulus", "Stratus", "Cumulonimbus"],
+  a: 2
+},
+
+/* 62 */
+{
+  q: "What causes wind?",
+  c: ["Earth’s rotation", "Temperature differences", "Air pressure differences", "Ocean currents"],
+  a: 2
+},
+
+/* 63 */
+{
+  q: "Wind blows from areas of _____ pressure to _____ pressure.",
+  c: ["low to high", "high to low", "warm to cold", "cold to warm"],
+  a: 1
+},
+
+/* 64 */
+{
+  q: "Which factor affects climate but not weather?",
+  c: ["Temperature", "Humidity", "Latitude", "Rainfall"],
+  a: 2
+},
+
+/* 65 */
+{
+  q: "Which region receives the most direct sunlight?",
+  c: ["Polar regions", "Temperate regions", "Equator", "Mid-latitudes"],
+  a: 2
+},
+
+/* 66 */
+{
+  q: "What term describes the average weather over a long period?",
+  c: ["Weather", "Atmosphere", "Climate", "Season"],
+  a: 2
+},
+
+/* 67 */
+{
+  q: "Which phenomenon is characterized by unusually warm ocean temperatures?",
+  c: ["La Niña", "El Niño", "Monsoon", "Trade winds"],
+  a: 1
+},
+
+/* 68 */
+{
+  q: "Which phenomenon is characterized by unusually cold ocean temperatures?",
+  c: ["El Niño", "Monsoon", "La Niña", "Cyclone"],
+  a: 2
+},
+
+/* 69 */
+{
+  q: "Which weather system brings heavy rain and strong winds in the Philippines?",
+  c: ["Blizzard", "Hurricane", "Typhoon", "Tornado"],
+  a: 2
+},
+
+/* 70 */
+{
+  q: "What agency monitors weather in the Philippines?",
+  c: ["PHIVOLCS", "DENR", "PAGASA", "NAMRIA"],
+  a: 2
+},
+
+/* 71 */
+{
+  q: "Which layer of the Earth contains tectonic plates?",
+  c: ["Asthenosphere", "Lithosphere", "Mantle", "Core"],
+  a: 1
+},
+
+/* 72 */
+{
+  q: "What do you call the breaking of rocks due to natural processes?",
+  c: ["Erosion", "Weathering", "Deposition", "Sedimentation"],
+  a: 1
+},
+
+/* 73 */
+{
+  q: "Which type of weathering involves chemical reactions?",
+  c: ["Mechanical", "Physical", "Chemical", "Biological"],
+  a: 2
+},
+
+/* 74 */
+{
+  q: "Which type of weathering involves plant roots breaking rocks?",
+  c: ["Mechanical", "Chemical", "Biological", "Thermal"],
+  a: 2
+},
+
+/* 75 */
+{
+  q: "What process moves weathered materials from one place to another?",
+  c: ["Weathering", "Deposition", "Erosion", "Compaction"],
+  a: 2
+},
+
+/* 76 */
+{
+  q: "What agent of erosion is most responsible for shaping rivers?",
+  c: ["Wind", "Ice", "Gravity", "Water"],
+  a: 3
+},
+
+/* 77 */
+{
+  q: "Which landform is created by river erosion?",
+  c: ["Delta", "Canyon", "Sand dune", "Glacier"],
+  a: 1
+},
+
+/* 78 */
+{
+  q: "Which landform is formed by deposition at the mouth of a river?",
+  c: ["Canyon", "Delta", "Floodplain", "Valley"],
+  a: 1
+},
+
+/* 79 */
+{
+  q: "Which agent of erosion forms sand dunes?",
+  c: ["Water", "Ice", "Wind", "Gravity"],
+  a: 2
+},
+
+/* 80 */
+{
+  q: "Which landform is commonly formed by glaciers?",
+  c: ["Delta", "V-shaped valley", "U-shaped valley", "Sand dune"],
+  a: 2
+},
+
+/* 81 */
+{
+  q: "What type of rock is formed from molten material?",
+  c: ["Sedimentary", "Metamorphic", "Igneous", "Fossil"],
+  a: 2
+},
+
+/* 82 */
+{
+  q: "What igneous rock forms beneath the Earth’s surface?",
+  c: ["Extrusive", "Basalt", "Intrusive", "Pumice"],
+  a: 2
+},
+
+/* 83 */
+{
+  q: "Which igneous rock forms on the Earth’s surface?",
+  c: ["Granite", "Intrusive", "Extrusive", "Gneiss"],
+  a: 2
+},
+
+/* 84 */
+{
+  q: "What type of rock forms from sediments?",
+  c: ["Igneous", "Metamorphic", "Sedimentary", "Magma"],
+  a: 2
+},
+
+/* 85 */
+{
+  q: "What process turns sediments into sedimentary rock?",
+  c: ["Melting", "Cooling", "Compaction and cementation", "Metamorphism"],
+  a: 2
+},
+
+/* 86 */
+{
+  q: "What type of rock is marble?",
+  c: ["Igneous", "Sedimentary", "Metamorphic", "Composite"],
+  a: 2
+},
+
+/* 87 */
+{
+  q: "What process changes rocks due to heat and pressure?",
+  c: ["Weathering", "Erosion", "Metamorphism", "Sedimentation"],
+  a: 2
+},
+
+/* 88 */
+{
+  q: "Which rock cycle process involves melting?",
+  c: ["Sedimentation", "Crystallization", "Metamorphism", "Weathering"],
+  a: 1
+},
+
+/* 89 */
+{
+  q: "What do you call molten rock beneath the Earth's surface?",
+  c: ["Lava", "Basalt", "Magma", "Ash"],
+  a: 2
+},
+
+/* 90 */
+{
+  q: "What do you call molten rock on Earth's surface?",
+  c: ["Magma", "Basalt", "Lava", "Tephra"],
+  a: 2
+},
+
+/* 91 */
+{
+  q: "Which resource is renewable?",
+  c: ["Coal", "Oil", "Natural gas", "Solar energy"],
+  a: 3
+},
+
+/* 92 */
+{
+  q: "Which resource is nonrenewable?",
+  c: ["Wind", "Water", "Coal", "Solar"],
+  a: 2
+},
+
+/* 93 */
+{
+  q: "Which fossil fuel is used most for electricity generation?",
+  c: ["Oil", "Natural gas", "Coal", "Uranium"],
+  a: 2
+},
+
+/* 94 */
+{
+  q: "Which energy resource uses heat from inside the Earth?",
+  c: ["Solar", "Wind", "Geothermal", "Hydroelectric"],
+  a: 2
+},
+
+/* 95 */
+{
+  q: "Which resource comes from decayed plants and animals?",
+  c: ["Solar energy", "Wind energy", "Fossil fuels", "Geothermal energy"],
+  a: 2
+},
+
+/* 96 */
+{
+  q: "Which practice helps conserve natural resources?",
+  c: ["Overfishing", "Deforestation", "Recycling", "Mining"],
+  a: 2
+},
+
+/* 97 */
+{
+  q: "Which human activity increases soil erosion?",
+  c: ["Terracing", "Tree planting", "Deforestation", "Contour farming"],
+  a: 2
+},
+
+/* 98 */
+{
+  q: "Which practice helps prevent soil erosion?",
+  c: ["Overgrazing", "Terracing", "Mining", "Clear cutting"],
+  a: 1
+},
+
+/* 99 */
+{
+  q: "Which environmental issue is caused by burning fossil fuels?",
+  c: ["Soil erosion", "Water pollution", "Air pollution", "Deforestation"],
+  a: 2
+},
+
+/* 100 */
+{
+  q: "What gas is the main contributor to global warming?",
+  c: ["Oxygen", "Nitrogen", "Carbon dioxide", "Helium"],
+  a: 2
+},
+
+/* 101 */
+{
+  q: "What term describes the increase in Earth's average temperature?",
+  c: ["Climate change", "Global warming", "Greenhouse effect", "Ozone depletion"],
+  a: 1
+},
+
+/* 102 */
+{
+  q: "Which human activity contributes most to climate change?",
+  c: ["Tree planting", "Recycling", "Burning fossil fuels", "Composting"],
+  a: 2
+},
+
+/* 103 */
+{
+  q: "Which effect results from increased greenhouse gases?",
+  c: ["Cooling of Earth", "Stable climate", "Trapping of heat", "More ozone"],
+  a: 2
+},
+
+/* 104 */
+{
+  q: "Which practice helps reduce climate change?",
+  c: ["Using renewable energy", "Burning coal", "Deforestation", "Overconsumption"],
+  a: 0
+},
+
+/* 105 */
+{
+  q: "Which action helps protect the environment?",
+  c: ["Littering", "Illegal logging", "Reducing waste", "Overfishing"],
+  a: 2
+},
+
+/* 106 */
+{
+  q: "Which natural hazard is caused by intense shaking of the ground?",
+  c: ["Volcanic eruption", "Earthquake", "Tsunami", "Landslide"],
+  a: 1
+},
+
+/* 107 */
+{
+  q: "Which natural hazard is caused by magma reaching the Earth's surface?",
+  c: ["Earthquake", "Landslide", "Volcanic eruption", "Flood"],
+  a: 2
+},
+
+/* 108 */
+{
+  q: "Which hazard is triggered by underwater earthquakes?",
+  c: ["Typhoon", "Flood", "Tsunami", "Landslide"],
+  a: 2
+},
+
+/* 109 */
+{
+  q: "Which hazard commonly occurs on steep slopes?",
+  c: ["Tsunami", "Earthquake", "Landslide", "Drought"],
+  a: 2
+},
+
+/* 110 */
+{
+  q: "Which factor increases the risk of flooding?",
+  c: ["Deforestation", "Terracing", "Reforestation", "Contour farming"],
+  a: 0
+},
+
+/* 111 */
+{
+  q: "Which practice helps reduce flood risk?",
+  c: ["Illegal logging", "Proper waste disposal", "Mining", "River narrowing"],
+  a: 1
+},
+
+/* 112 */
+{
+  q: "Which Philippine agency monitors volcanic activity?",
+  c: ["PAGASA", "DENR", "PHIVOLCS", "NAMRIA"],
+  a: 2
+},
+
+/* 113 */
+{
+  q: "Which agency issues earthquake and volcano warnings in the Philippines?",
+  c: ["PAGASA", "PHIVOLCS", "DOH", "DOST"],
+  a: 1
+},
+
+/* 114 */
+{
+  q: "Which Philippine agency is responsible for weather forecasting?",
+  c: ["DENR", "PHIVOLCS", "PAGASA", "NAMRIA"],
+  a: 2
+},
+
+/* 115 */
+{
+  q: "Which safety action should be done during an earthquake?",
+  c: ["Run outside immediately", "Duck, Cover, and Hold", "Stand near windows", "Use elevators"],
+  a: 1
+},
+
+/* 116 */
+{
+  q: "What should you do first after a volcanic eruption?",
+  c: ["Remove mask", "Clean ash with bare hands", "Follow evacuation orders", "Ignore advisories"],
+  a: 2
+},
+
+/* 117 */
+{
+  q: "Which safety measure reduces landslide risk?",
+  c: ["Cutting trees", "Planting vegetation", "Mining slopes", "Removing soil cover"],
+  a: 1
+},
+
+/* 118 */
+{
+  q: "Which practice reduces earthquake damage in buildings?",
+  c: ["Weak foundations", "Earthquake-resistant design", "Heavy rooftops", "Unreinforced walls"],
+  a: 1
+},
+
+/* 119 */
+{
+  q: "Which disaster preparedness item is MOST important?",
+  c: ["Luxury items", "Emergency kit", "Electronics", "Furniture"],
+  a: 1
+},
+
+/* 120 */
+{
+  q: "Which item should be included in an emergency kit?",
+  c: ["Jewelry", "Flashlight", "Toys", "Books"],
+  a: 1
+},
+
+/* 121 */
+{
+  q: "Which factor mainly affects the intensity of an earthquake’s damage?",
+  c: ["Color of soil", "Distance from epicenter", "Time of day", "Wind speed"],
+  a: 1
+},
+
+/* 122 */
+{
+  q: "Which area is MOST at risk during a tsunami?",
+  c: ["Mountain regions", "Coastal areas", "Plateaus", "Deserts"],
+  a: 1
+},
+
+/* 123 */
+{
+  q: "Which human activity worsens natural hazards?",
+  c: ["Reforestation", "Urban planning", "Environmental protection", "Improper waste disposal"],
+  a: 3
+},
+
+/* 124 */
+{
+  q: "Which action helps communities prepare for disasters?",
+  c: ["Ignoring drills", "Emergency drills", "Blocking evacuation routes", "Spreading rumors"],
+  a: 1
+},
+
+/* 125 */
+{
+  q: "Which term refers to the ability to recover after a disaster?",
+  c: ["Hazard", "Vulnerability", "Resilience", "Exposure"],
+  a: 2
+},
+
+/* 126 */
+{
+  q: "Which factor increases community vulnerability?",
+  c: ["Preparedness", "Strong infrastructure", "Lack of awareness", "Early warning systems"],
+  a: 2
+},
+
+/* 127 */
+{
+  q: "Which practice improves disaster risk reduction?",
+  c: ["Proper land-use planning", "Building on fault lines", "Deforestation", "Ignoring warnings"],
+  a: 0
+},
+
+/* 128 */
+{
+  q: "Which type of map shows hazard-prone areas?",
+  c: ["Political map", "Topographic map", "Hazard map", "Climate map"],
+  a: 2
+},
+
+/* 129 */
+{
+  q: "Which technology helps monitor earthquakes?",
+  c: ["Radar", "Seismograph", "Satellite camera", "Barometer"],
+  a: 1
+},
+
+/* 130 */
+{
+  q: "Which technology helps track typhoons?",
+  c: ["Seismograph", "Thermometer", "Weather satellite", "Compass"],
+  a: 2
+},
+
+/* 131 */
+{
+  q: "Which term refers to materials flowing downhill rapidly?",
+  c: ["Flood", "Avalanche", "Landslide", "Erosion"],
+  a: 2
+},
+
+/* 132 */
+{
+  q: "Which natural hazard involves snow and ice?",
+  c: ["Landslide", "Avalanche", "Tsunami", "Earthquake"],
+  a: 1
+},
+
+/* 133 */
+{
+  q: "Which hazard is MOST related to prolonged lack of rainfall?",
+  c: ["Flood", "Typhoon", "Drought", "Tsunami"],
+  a: 2
+},
+
+/* 134 */
+{
+  q: "Which climate event causes extended dry conditions?",
+  c: ["La Niña", "El Niño", "Monsoon", "Trade winds"],
+  a: 1
+},
+
+/* 135 */
+{
+  q: "Which practice helps conserve water?",
+  c: ["Leaving taps open", "Fixing leaks", "Overuse of water", "Polluting rivers"],
+  a: 1
+},
+
+/* 136 */
+{
+  q: "Which action helps reduce pollution?",
+  c: ["Burning trash", "Recycling waste", "Illegal dumping", "Using single-use plastics"],
+  a: 1
+},
+
+/* 137 */
+{
+  q: "Which environmental law protects natural resources?",
+  c: ["Illegal logging acts", "Environmental protection laws", "Mining abuse policies", "Waste neglect rules"],
+  a: 1
+},
+
+/* 138 */
+{
+  q: "Which individual action supports sustainability?",
+  c: ["Overconsumption", "Energy conservation", "Resource waste", "Littering"],
+  a: 1
+},
+
+/* 139 */
+{
+  q: "Which concept emphasizes meeting present needs without harming future generations?",
+  c: ["Industrialization", "Sustainability", "Urbanization", "Globalization"],
+  a: 1
+},
+
+/* 140 */
+{
+  q: "Which role can students play in disaster risk reduction?",
+  c: ["Ignoring warnings", "Spreading misinformation", "Participating in drills", "Blocking evacuation routes"],
+  a: 2
+}
+
+];
+
+let current = 0;
+let score = 0;
+let selected = null;
+
+function loadQuestion() {
+  const q = quiz[current];
+  selected = null;
+
+  document.getElementById("progress").textContent =
+    `Question ${current + 1} / 140 | Score: ${score}`;
+  document.getElementById("question").textContent = q.q;
+
+  const choicesDiv = document.getElementById("choices");
+  choicesDiv.innerHTML = "";
+
+  q.c.forEach((choice, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = choice;
+
+    btn.onclick = () => {
+      if (selected !== null) return; // 🔒 lock answers
+
+      selected = index;
+
+      // disable all buttons once one is clicked
+      document.querySelectorAll(".choices button").forEach(b => {
+        b.disabled = true;
+      });
+    };
+
+    choicesDiv.appendChild(btn);
+  });
+}
+function nextQuestion() {
+  if (selected === null) {
+    alert("Please select an answer.");
+    return;
+  }
+
+  if (selected === quiz[current].a) score++;
+
+  selected = null;
+  current++;
+
+  if (current < quiz.length) {
+    loadQuestion();
+  } else {
+    document.body.innerHTML = `
+      <div class="container">
+        <h1>🎉 Quiz Complete</h1>
+        <p>Your Score: <strong>${score} / 140</strong></p>
+      </div>
+    `;
+  }
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
