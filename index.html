@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <title>Earth Science Quiz Game</title>
 <style>
+  .correct {
+  background: #16a34a !important;
+  color: white;
+}
+
+.wrong {
+  background: #dc2626 !important;
+  color: white;
+}
+
+.disabled {
+  background: #1e293b;
+  color: #94a3b8;
+}
   .choices button:disabled {
   background: #1e293b;
   color: #94a3b8;
@@ -1072,13 +1086,24 @@ function loadQuestion() {
 
     btn.onclick = () => {
       if (selected !== null) return; // 🔒 lock answers
-
       selected = index;
 
-      // disable all buttons once one is clicked
-      document.querySelectorAll(".choices button").forEach(b => {
+      const buttons = document.querySelectorAll(".choices button");
+
+      buttons.forEach((b, i) => {
         b.disabled = true;
+        b.classList.add("disabled");
+
+        if (i === q.a) {
+          b.classList.add("correct"); // show correct answer
+        }
       });
+
+      if (index === q.a) {
+        score++;
+      } else {
+        btn.classList.add("wrong"); // mark wrong choice
+      }
     };
 
     choicesDiv.appendChild(btn);
